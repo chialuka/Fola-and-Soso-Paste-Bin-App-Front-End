@@ -1,9 +1,8 @@
-// import React, { useState } from "react";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 export default function App(): JSX.Element {
-  // const [pastes, setPastes] = useState([])
+  const [pastes, setPastes] = useState<any[]>([]);
 
   function handleSubmit() {
     console.log("would send text");
@@ -32,7 +31,7 @@ export default function App(): JSX.Element {
         console.log("getting all entries: ", response.data);
         const receivedPastes = response.data;
         console.log(receivedPastes);
-        // setPastes(receivedPastes)
+        setPastes(receivedPastes);
       })
       .catch((err) => console.error("error when getting entries", err));
   }
@@ -42,7 +41,10 @@ export default function App(): JSX.Element {
       <h1>Pastebin App</h1>
       <button onClick={handleSubmit}>Submit text</button>
       <button onClick={handleAllSubmits}>View list of all submits</button>
-      {/* {pastes.map(item => item.title_text)} */}
+
+      {pastes.map((item) => (
+        <li key={item.entry_id}>{item.title_text}</li>
+      ))}
     </div>
   );
 }
