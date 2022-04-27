@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {getSummary} from "./utils/getSummary";
+import { getSummary } from "./utils/getSummary";
 
 export default function App(): JSX.Element {
   interface entry {
@@ -12,7 +12,6 @@ export default function App(): JSX.Element {
   const [tenPastes, setTenPastes] = useState<entry[]>([]);
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
-
 
   function handleSubmit() {
     console.log("would send text");
@@ -33,24 +32,19 @@ export default function App(): JSX.Element {
       });
   }
 
-
-
-  useEffect ( () => {  
-
+  useEffect(() => {
     axios
       .get("http://localhost:4000/tenPastes")
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const receivedtenPastes = response.data;
         console.log(receivedtenPastes);
-        setTenPastes(receivedtenPastes)
+        setTenPastes(receivedtenPastes);
       })
       .catch((err) => console.error("error when getting entries", err));
-    }, [] )
-    
-    
-    
-    return (
+  }, []);
+
+  return (
     <div className="App">
       <h1>Pastebin App</h1>
       <input
@@ -63,17 +57,16 @@ export default function App(): JSX.Element {
         value={summary}
         onChange={(event) => setSummary(event.target.value)}
       />
-      
+
       <button onClick={handleSubmit}>Submit text</button>
       <hr />
-      <div className ='listOfTenPastes'>
-      {tenPastes.map((item) => (
-        <div className ='onePasteItem' key={item.entry_id}>
-          {item.title_text}
-          <hr /> {getSummary(item.summary_text)}
-        
-        </div>
-      ))}
+      <div className="listOfTenPastes">
+        {tenPastes.map((item) => (
+          <div className="onePasteItem" key={item.entry_id}>
+            {item.title_text}
+            <hr /> {getSummary(item.summary_text)}
+          </div>
+        ))}
       </div>
     </div>
   );
