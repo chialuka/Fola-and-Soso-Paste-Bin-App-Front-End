@@ -3,14 +3,14 @@ import axios from "axios";
 
 export default function App(): JSX.Element {
   interface entry {
-    "entry_id": number,
-    "title_text": string,
-    "summary_text": string,
-    "time": string
+    entry_id: number;
+    title_text: string;
+    summary_text: string;
+    time: string;
   }
   const [pastes, setPastes] = useState<entry[]>([]);
-  const [title, setTitle] = useState<string>('');
-  const [summary, setSummary] = useState<string>('');
+  const [title, setTitle] = useState<string>("");
+  const [summary, setSummary] = useState<string>("");
 
   function handleSubmit() {
     console.log("would send text");
@@ -47,16 +47,27 @@ export default function App(): JSX.Element {
   return (
     <div className="App">
       <h1>Pastebin App</h1>
-      <input placeholder="new paste" value={title} onChange={(event) => setTitle(event.target.value)} />
-      <input placeholder="new summary" value={summary} onChange={(event) => setSummary(event.target.value)} />
-      <hr/>
-
+      <input
+        placeholder="new paste"
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
+      />
+      <input
+        placeholder="new summary"
+        value={summary}
+        onChange={(event) => setSummary(event.target.value)}
+      />
+      <hr />
 
       <button onClick={handleSubmit}>Submit text</button>
       <button onClick={handleAllSubmits}>View list of all submits</button>
 
       {pastes.map((item) => (
-        <li key={item.entry_id}>{item.title_text}<br /> {item.summary_text}<hr/></li>
+        <li key={item.entry_id}>
+          {item.title_text}
+          <br /> {item.summary_text}
+          <hr />
+        </li>
       ))}
     </div>
   );
