@@ -1,0 +1,20 @@
+.App {
+    background-color: white
+    
+}
+
+.listOfTenPastes {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+    
+}
+
+.onePasteItem{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: auto;
+    margin: auto;
+    text-align: center;
+}

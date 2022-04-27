@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {getSummary} from "./utils/getSummary";
 
 export default function App(): JSX.Element {
   interface entry {
@@ -8,9 +9,10 @@ export default function App(): JSX.Element {
     summary_text: string;
     time: string;
   }
-  const [pastes, setPastes] = useState<entry[]>([]);
+  const [tenPastes, setTenPastes] = useState<entry[]>([]);
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
+
 
   function handleSubmit() {
     console.log("would send text");
@@ -31,44 +33,48 @@ export default function App(): JSX.Element {
       });
   }
 
-  function handleAllSubmits() {
-    //axios.get will make a fetch to the given url + make a get http request
+
+
+  useEffect ( () => {  
+
     axios
-      .get("http://localhost:4000/pastes")
+      .get("http://localhost:4000/tenPastes")
       .then((response) => {
         console.log("getting all entries: ", response.data);
-        const receivedPastes = response.data;
-        console.log(receivedPastes);
-        setPastes(receivedPastes);
+        const receivedtenPastes = response.data;
+        console.log(receivedtenPastes);
+        setTenPastes(receivedtenPastes)
       })
       .catch((err) => console.error("error when getting entries", err));
-  }
-
-  return (
+    }, [] )
+    
+    
+    
+    return (
     <div className="App">
       <h1>Pastebin App</h1>
       <input
-        placeholder="new paste"
+        placeholder="new title"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
       />
-      <input
-        placeholder="new summary"
+      <textarea
+        placeholder="new paste"
         value={summary}
         onChange={(event) => setSummary(event.target.value)}
       />
-      <hr />
-
+      
       <button onClick={handleSubmit}>Submit text</button>
-      <button onClick={handleAllSubmits}>View list of all submits</button>
-
-      {pastes.map((item) => (
-        <li key={item.entry_id}>
+      <hr />
+      <div className ='listOfTenPastes'>
+      {tenPastes.map((item) => (
+        <div className ='onePasteItem' key={item.entry_id}>
           {item.title_text}
-          <br /> {item.summary_text}
-          <hr />
-        </li>
+          <hr /> {getSummary(item.summary_text)}
+        
+        </div>
       ))}
+      </div>
     </div>
   );
 }
