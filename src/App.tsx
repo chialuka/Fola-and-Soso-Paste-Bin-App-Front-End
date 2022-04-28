@@ -13,7 +13,7 @@ export default function App(): JSX.Element {
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
   const [clickedPaste, setClickedPastes] = useState<entry[]>([]);
-  const [isPasteClicked, setIsPasteClicked] = useState<boolean>(false)
+  const [isPasteClicked, setIsPasteClicked] = useState<boolean>(false);
   const [newPaste, setNewPaste] = useState<entry[]>([]);
 
   function handleSubmit() {
@@ -29,14 +29,13 @@ export default function App(): JSX.Element {
       .post(url, newEntry)
       .then(function (response) {
         console.log("axios got the response: ", response);
-        setTitle('')
-        setSummary('')
-        setNewPaste(response.data)
+        setTitle("");
+        setSummary("");
+        setNewPaste(response.data);
       })
       .catch(function (error) {
         console.log("axios got error:", error);
       });
-    
   }
 
   useEffect(() => {
@@ -51,16 +50,15 @@ export default function App(): JSX.Element {
       .catch((err) => console.error("error when getting entries", err));
   }, [newPaste]);
 
-
   function handleIndividualPasteClick(id: number) {
-      axios
+    axios
       .get(`http://localhost:4000/pastes/${id}`)
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const clickedPaste = response.data;
         console.log(clickedPaste);
-        setClickedPastes(clickedPaste)
-        setIsPasteClicked(true) 
+        setClickedPastes(clickedPaste);
+        setIsPasteClicked(true);
       })
       .catch((err) => console.error("error when getting entries", err));
   }
@@ -79,19 +77,28 @@ export default function App(): JSX.Element {
         onChange={(event) => setSummary(event.target.value)}
       />
 
-      <button disabled={!summary} onClick={handleSubmit}>Submit text</button>
+      <button disabled={!summary} onClick={handleSubmit}>
+        Submit text
+      </button>
       <hr />
       <div className="listOfTenPastes">
-        {isPasteClicked ? 
-        <div onClick = {() => setIsPasteClicked(prev => !prev)}>{clickedPaste[0].title_text}
-        <hr /> {clickedPaste[0].summary_text}</div> : 
-        
-        tenPastes.map((item) => (
-          <div onClick={() => handleIndividualPasteClick(item.entry_id)} className="onePasteItem" key={item.entry_id}>
-            {item.title_text}
-            <hr /> {getSummary(item.summary_text)}
+        {isPasteClicked ? (
+          <div onClick={() => setIsPasteClicked((prev) => !prev)}>
+            {clickedPaste[0].title_text}
+            <hr /> {clickedPaste[0].summary_text}
           </div>
-        ))}
+        ) : (
+          tenPastes.map((item) => (
+            <div
+              onClick={() => handleIndividualPasteClick(item.entry_id)}
+              className="onePasteItem"
+              key={item.entry_id}
+            >
+              {item.title_text}
+              <hr /> {getSummary(item.summary_text)}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
