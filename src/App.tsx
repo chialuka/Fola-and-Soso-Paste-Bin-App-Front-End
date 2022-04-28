@@ -24,7 +24,7 @@ export default function App(): JSX.Element {
       summary: summary,
     };
     //send an HTTP post request to our API server with new entry
-    const url = "http://localhost:4000/pastes";
+    const url = "https://pastebin-soso-fola.herokuapp.com/pastes";
     axios
       .post(url, newEntry)
       .then(function (response) {
@@ -40,7 +40,7 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/pastes/tenPastes")
+      .get("https://pastebin-soso-fola.herokuapp.com/pastes/tenPastes")
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const receivedtenPastes = response.data;
@@ -52,7 +52,7 @@ export default function App(): JSX.Element {
 
   function handleIndividualPasteClick(id: number) {
     axios
-      .get(`http://localhost:4000/pastes/${id}`)
+      .get(`https://pastebin-soso-fola.herokuapp.com/pastes/${id}`)
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const clickedPaste = response.data;
