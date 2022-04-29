@@ -68,25 +68,26 @@ export default function App(): JSX.Element {
       <div className="containerOut">
       <div className="containerFirst">
       <input
-        placeholder="new title"
+        placeholder="optional: Title text"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
       />
       <textarea
-        placeholder="new paste"
+        placeholder="Paste Text here"
         value={summary}
         onChange={(event) => setSummary(event.target.value)}
       />
 
       <button disabled={!summary} onClick={handleSubmit}>
-        Submit text
+        Submit 
       </button>
       </div>
       <div className="listOfTenPastes">
+        {isPasteClicked? <h2>Selected Paste</h2> : <h2>10 Most Recent Pastes</h2>}
         {isPasteClicked ? (
-          <div onClick={() => setIsPasteClicked((prev) => !prev)}>
+          <div className="buttonitem" onClick={() => setIsPasteClicked((prev) => !prev)}>
             {clickedPaste[0].title_text}
-            <hr /> {clickedPaste[0].summary_text}
+            <hr /> {clickedPaste[0].summary_text} <br/> <small>{clickedPaste[0].time}</small>
           </div>
         ) : (
           tenPastes.map((item) => (
@@ -96,7 +97,7 @@ export default function App(): JSX.Element {
               key={item.entry_id}
             >
               {item.title_text}
-              <hr /> {getSummary(item.summary_text)}
+              <hr /> {getSummary(item.summary_text)} <br/> <small>{item.time}</small>
             </div>
           ))
         )}
