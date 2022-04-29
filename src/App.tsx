@@ -24,7 +24,7 @@ export default function App(): JSX.Element {
       summary: summary,
     };
     //send an HTTP post request to our API server with new entry
-    const url = "http://localhost:4000/pastes";
+    const url = "https://pastebin-soso-fola.herokuapp.com/pastes";
     axios
       .post(url, newEntry)
       .then(function (response) {
@@ -40,7 +40,7 @@ export default function App(): JSX.Element {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/pastes/tenPastes")
+      .get("https://pastebin-soso-fola.herokuapp.com/pastes/tenPastes")
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const receivedtenPastes = response.data;
@@ -52,7 +52,7 @@ export default function App(): JSX.Element {
 
   function handleIndividualPasteClick(id: number) {
     axios
-      .get(`http://localhost:4000/pastes/${id}`)
+      .get(`https://pastebin-soso-fola.herokuapp.com/pastes/${id}`)
       .then((response) => {
         console.log("getting all entries: ", response.data);
         const clickedPaste = response.data;
@@ -65,40 +65,52 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
-      <h1>Pastebin App</h1>
-      <input
-        placeholder="new title"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-      />
-      <textarea
-        placeholder="new paste"
-        value={summary}
-        onChange={(event) => setSummary(event.target.value)}
-      />
+      <div className="containerOut">
+        <div className="containerFirst">
+          <input
+            placeholder="optional: Title text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <textarea
+            placeholder="Paste Text here"
+            value={summary}
+            onChange={(event) => setSummary(event.target.value)}
+          />
 
-      <button disabled={!summary} onClick={handleSubmit}>
-        Submit text
-      </button>
-      <hr />
-      <div className="listOfTenPastes">
-        {isPasteClicked ? (
-          <div onClick={() => setIsPasteClicked((prev) => !prev)}>
-            {clickedPaste[0].title_text}
-            <hr /> {clickedPaste[0].summary_text}
-          </div>
-        ) : (
-          tenPastes.map((item) => (
+          <button disabled={!summary} onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
+        <div className="listOfTenPastes">
+          {isPasteClicked ? (
+            <h2>Selected Paste</h2>
+          ) : (
+            <h2>10 Most Recent Pastes</h2>
+          )}
+          {isPasteClicked ? (
             <div
-              onClick={() => handleIndividualPasteClick(item.entry_id)}
-              className="onePasteItem"
-              key={item.entry_id}
+              className="buttonitem"
+              onClick={() => setIsPasteClicked((prev) => !prev)}
             >
-              {item.title_text}
-              <hr /> {getSummary(item.summary_text)}
+              {clickedPaste[0].title_text}
+              <hr /> {clickedPaste[0].summary_text} <br />{" "}
+              <small>{clickedPaste[0].time}</small>
             </div>
-          ))
-        )}
+          ) : (
+            tenPastes.map((item) => (
+              <div
+                onClick={() => handleIndividualPasteClick(item.entry_id)}
+                className="onePasteItem"
+                key={item.entry_id}
+              >
+                {item.title_text}
+                <hr /> {getSummary(item.summary_text)} <br />{" "}
+                <small>{item.time}</small>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
