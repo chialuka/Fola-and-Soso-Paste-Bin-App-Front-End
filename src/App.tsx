@@ -65,6 +65,8 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
+      <div className="containerOut">
+      <div className="containerFirst">
       <input
         placeholder="new title"
         value={title}
@@ -79,7 +81,7 @@ export default function App(): JSX.Element {
       <button disabled={!summary} onClick={handleSubmit}>
         Submit text
       </button>
-      <hr />
+      </div>
       <div className="listOfTenPastes">
         {isPasteClicked ? (
           <div onClick={() => setIsPasteClicked((prev) => !prev)}>
@@ -98,6 +100,7 @@ export default function App(): JSX.Element {
             </div>
           ))
         )}
+      </div>
       </div>
     </div>
   );
