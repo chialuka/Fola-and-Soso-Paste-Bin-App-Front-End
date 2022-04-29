@@ -66,42 +66,51 @@ export default function App(): JSX.Element {
   return (
     <div className="App">
       <div className="containerOut">
-      <div className="containerFirst">
-      <input
-        placeholder="optional: Title text"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-      />
-      <textarea
-        placeholder="Paste Text here"
-        value={summary}
-        onChange={(event) => setSummary(event.target.value)}
-      />
+        <div className="containerFirst">
+          <input
+            placeholder="optional: Title text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <textarea
+            placeholder="Paste Text here"
+            value={summary}
+            onChange={(event) => setSummary(event.target.value)}
+          />
 
-      <button disabled={!summary} onClick={handleSubmit}>
-        Submit 
-      </button>
-      </div>
-      <div className="listOfTenPastes">
-        {isPasteClicked? <h2>Selected Paste</h2> : <h2>10 Most Recent Pastes</h2>}
-        {isPasteClicked ? (
-          <div className="buttonitem" onClick={() => setIsPasteClicked((prev) => !prev)}>
-            {clickedPaste[0].title_text}
-            <hr /> {clickedPaste[0].summary_text} <br/> <small>{clickedPaste[0].time}</small>
-          </div>
-        ) : (
-          tenPastes.map((item) => (
+          <button disabled={!summary} onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
+        <div className="listOfTenPastes">
+          {isPasteClicked ? (
+            <h2>Selected Paste</h2>
+          ) : (
+            <h2>10 Most Recent Pastes</h2>
+          )}
+          {isPasteClicked ? (
             <div
-              onClick={() => handleIndividualPasteClick(item.entry_id)}
-              className="onePasteItem"
-              key={item.entry_id}
+              className="buttonitem"
+              onClick={() => setIsPasteClicked((prev) => !prev)}
             >
-              {item.title_text}
-              <hr /> {getSummary(item.summary_text)} <br/> <small>{item.time}</small>
+              {clickedPaste[0].title_text}
+              <hr /> {clickedPaste[0].summary_text} <br />{" "}
+              <small>{clickedPaste[0].time}</small>
             </div>
-          ))
-        )}
-      </div>
+          ) : (
+            tenPastes.map((item) => (
+              <div
+                onClick={() => handleIndividualPasteClick(item.entry_id)}
+                className="onePasteItem"
+                key={item.entry_id}
+              >
+                {item.title_text}
+                <hr /> {getSummary(item.summary_text)} <br />{" "}
+                <small>{item.time}</small>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
