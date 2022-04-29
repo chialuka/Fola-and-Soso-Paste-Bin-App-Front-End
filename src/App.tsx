@@ -65,7 +65,6 @@ export default function App(): JSX.Element {
 
   return (
     <div className="App">
-      <h1>Pastebin App</h1>
       <input
         placeholder="new title"
         value={title}
